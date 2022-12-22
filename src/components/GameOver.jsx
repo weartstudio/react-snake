@@ -1,7 +1,13 @@
-import React from 'react'
+import { useEffect } from 'react'
 import go_img from '../img/game-over.png'
+import game_over from '../sounds/src_sounds_game_over.wav'
 
 function GameOver(props) {
+
+	useEffect(() => {
+		new Audio(game_over).play()
+	}, [])
+
 	return (
 		<div className="gameover">
 			{props.game.over ? <img src={go_img} alt="" /> : ""}

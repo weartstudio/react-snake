@@ -5,6 +5,8 @@ import Snake from "./components/Snake";
 import Food from "./components/Food";
 import useInterval from './hooks/useInterval';
 import Menu from './components/Menu';
+import eatSuccess from './sounds/src_sounds_eat_success.wav';
+import dirsound from './sounds/src_sounds_preview.wav';
 
 const size = 4;
 
@@ -48,6 +50,7 @@ function App() {
         setGame((prev)=>({...prev, direction: 'RIGHT'}));
         break;
     }
+		new Audio(dirsound).play();
   }
 
 	const moveSnake = () => {
@@ -68,6 +71,7 @@ function App() {
         head = [head[0], head[1] - size];
         break;
     }
+
 
     dots.push(head);
     dots.shift();
@@ -107,6 +111,7 @@ function App() {
     let newSnake = [...game.snakeDots];
     newSnake.unshift([])
     setGame((prev)=>({...prev, snakeDots: newSnake}));
+		new Audio(eatSuccess).play();
   }
 
 	const increaseSpeed = () => {
