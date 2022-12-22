@@ -205,3 +205,43 @@ svg.snake-food{
     display: grid;
   }
 }
+
+.scores{
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+table{
+  width: 100%;
+  padding: 1rem 0;
+  border-top: 1px solid var(--bg);
+  border-bottom: 1px solid var(--bg);
+}
+tr:nth-child(odd){
+  background: rgba(0,0,0,0.2);
+}
+td{
+  min-height: 30px;
+}
+
+.save{
+  display: flex;
+  grid-template-columns: repeat(2,1fr);
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.save input{
+  padding: 0 .5rem;
+  line-height: 2rem;
+  border: 0;
+  background: var(--bg);
+  outline: none;
+}
+.save input[type=button]{
+  color: white;
+  font-weight: bold;
+  margin-left: 2px;
+}

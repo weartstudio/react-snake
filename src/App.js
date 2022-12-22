@@ -4,7 +4,7 @@ import getRandomChoordinates from "./hooks/getRandomChoordinates";
 import Snake from "./components/Snake";
 import Food from "./components/Food";
 import useInterval from './hooks/useInterval';
-import GameOver from './components/GameOver';
+import Menu from './components/Menu';
 
 const size = 4;
 
@@ -121,7 +121,7 @@ function App() {
   }
 
   if(game.over){
-    return <GameOver game={game} setGame={setGame} initial={initialState} />
+    return <Menu game={game} setGame={setGame} initial={initialState} />
   }
 
   return (
