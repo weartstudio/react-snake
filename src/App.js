@@ -5,8 +5,10 @@ import Snake from "./components/Snake";
 import Food from "./components/Food";
 import useInterval from './hooks/useInterval';
 import Menu from './components/Menu';
-import eatSuccess from './sounds/src_sounds_eat_success.wav';
+import eatsuccess from './sounds/src_sounds_eat_success.wav';
 import dirsound from './sounds/src_sounds_preview.wav';
+import game_over from './sounds/src_sounds_game_over.wav'
+import useSound from 'use-sound';
 
 const size = 4;
 
@@ -23,10 +25,23 @@ const initialState = {
 
 function App() {
   const [game,setGame] = useState(initialState);
+  const [game_over_sound] = useSound(game_over);
+  const [direction_sound] = useSound(dirsound);
+  const [success_sound] = useSound(eatsuccess);
 
   useEffect(() => {
     document.onkeydown = onKeyDown;
   },[])
+
+  useEffect(()=>{
+    if(game.over){
+      game_over_sound()
+    }
+  }, [game.over])
+
+  useEffect(()=>{
+    direction_sound();
+  }, [game.direction])
 
   useEffect(()=>{
     checkIfOutOfBorders();
@@ -50,7 +65,6 @@ function App() {
         setGame((prev)=>({...prev, direction: 'RIGHT'}));
         break;
     }
-		new Audio(dirsound).play();
   }
 
 	const moveSnake = () => {
@@ -111,7 +125,7 @@ function App() {
     let newSnake = [...game.snakeDots];
     newSnake.unshift([])
     setGame((prev)=>({...prev, snakeDots: newSnake}));
-		new Audio(eatSuccess).play();
+    success_sound()
   }
 
 	const increaseSpeed = () => {
