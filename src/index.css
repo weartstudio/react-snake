@@ -3,7 +3,7 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.87);
+  color: black;
   background-color: white;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -11,11 +11,13 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --green: #165B33;
-  --lightgreen: #146B3A;
-  --red: #146B3A;
-  --lightred: #EA4630;
-  --yellow: #F8B229;
+  --bg: #58893c;
+  --lightgreen: #abd55e;
+  --green: #a3d057;
+  --snake: #4d80f2;
+  --apple: #e64526;
+  --size: 4%;
+  --snake-head: calc(var(--size)*1.5);
 }
 
 body {
@@ -24,36 +26,182 @@ body {
   justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background: #000;
+  font-weight: bold;
 }
 
 #root {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-.game-area{
-  width: 350px;
-  height: 350px;
-  background: rgba(255,255, 255, 0.75);
-  border: 4px solid var(--lightgreen);
+  max-width: 600px;
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 
-.snake-dot{
-  width: 2%;
-  height: 2%;
-  background: var(--red);
-  border: 1px solid white;
+.game-area{
+  width: 100%;
+  padding-top: 100%;
+  background: rgba(255,255, 255, 0.75);
+  box-shadow: 0 0 0 10px  var(--green);
+  position: relative;
+  background-position: 0% 0;
+  background-size: calc(var(--size) * 2) calc(var(--size) * 2);
+  background-image:repeating-conic-gradient(from calc(0*1deg), var(--green) 0% 25%, var(--lightgreen) 0% 50%)
+}
+.game-area span{
   position: absolute;
-  z-index: 2;
+  top: 1rem;
+  right: 1rem;
+  opacity: .5;
+  font-weight: bold;
+  color: white;
 }
 
-.snake-food{
-  width: 2%;
-  height: 2%;
-  background: var(--yellow);
-  border: 1px solid white;
+
+.snake-dot{
+  width: var(--size);
+  height: var(--size);
+  background: var(--snake);
+  position: absolute;
+  z-index: 2;
+  border-radius: 25%;
+}
+
+/* snake head */
+.snake-head{
+  width: calc(var(--size)*1.25);
+  height: calc(var(--size)*1.25);
+  border-radius: 25% 50% 50% 25%;
+}
+
+.snake-head .eye1,
+.snake-head .eye2{
+  background: black;
+  border: 2px solid white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 20%;
   position: absolute;
   z-index: 1;
+}
+.snake-head .eye1{
+  left: 25%;
+  top: 25%;
+  transform: translateY(-50%);
+}
+.snake-head .eye2{
+  left: 25%;
+  top: 75%;
+  transform: translateY(-50%);
+}
+.snake-head{
+  position: absolute;
+  z-index: 2;
+  width: var(--snake-head);
+  height: var(--snake-head);
+}
+.snake-head.RIGHT{
+  margin-top: calc(var(--size) / 4 * -1);
+}
+.snake-head.LEFT{
+  rotate: 180deg;
+  margin-top: calc(var(--size) / 4 * -1);
+  margin-left: calc(var(--size) * -.5);
+}
+.snake-head.UP{
+  rotate: -90deg;
+  margin-left: calc(var(--size) / 4 * -1);
+  margin-top: calc(var(--size) * -.5);
+}
+.snake-head.DOWN{
+  rotate: 90deg;
+  margin-left: calc(var(--size) / 4 * -1);
+}
+
+
+/* snake food */
+.snake-food{
+  width: calc(var(--size) );
+  height: calc(var(--size) );
+  background: var(--apple);
+  position: absolute;
+  z-index: 1;
+}
+svg.snake-food{
+  margin-top: calc(var(--size) * -.25);
+  margin-left: calc(var(--size) * -.25);
+  background: transparent;
+  width: calc(var(--size) * 1.5);
+  height: calc(var(--size) * 1.5);
+}
+
+
+/* game over */
+.gameover{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.gameover img{
+  max-width: 50%;
+  margin: 0 auto;
+}
+.gameover button{
+  margin-top: 2rem;
+  background: var(--bg);
+  outline: none;
+  border: 0;
+  padding: .75rem 1.5rem;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mobile{
+  display: none;
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows: repeat(3,1fr);
+  margin-top: 2rem;
+  grid-gap: 1rem;
+}
+.mobile button{
+  padding: 1rem;
+  background: var(--bg);
+  color: white;
+  border: 0;
+  font-weight: bold;
+}
+.mobile .btnUp{
+  grid-column: 2;
+  grid-row: 1;
+}
+.mobile .btnLeft{
+  grid-column: 1;
+  grid-row: 2;
+}
+.mobile .btnRight{
+  grid-column: 3;
+  grid-row: 2;
+}
+.mobile .btnDown{
+  grid-column: 2;
+  grid-row: 3;
+}
+
+@media (max-width:1024px) {
+  .mobile{
+    display: grid;
+  }
 }
